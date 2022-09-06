@@ -1,5 +1,3 @@
-#!/bin/sh
-#
 # Set up environment variables for general build tool to operate
 # This buildenv is a sample. It describes the minimal environment
 # variables required to set up a port environment.
@@ -10,3 +8,17 @@
 export ZOPEN_TYPE="GIT"
 export ZOPEN_GIT_URL="https://gitlab.com/cjwatson/man-db.git"
 export ZOPEN_GIT_DEPS="git m4 make libtool"
+
+zopen_check_results()
+{
+#!/bin/sh
+#
+# Really simple check - make sure output log has the right line
+#
+dir="$1"
+pfx="$2"
+chk="$1/$2_check.log"
+
+grep 'All tests passed' "${chk}"
+}
+
