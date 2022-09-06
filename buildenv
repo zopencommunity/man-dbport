@@ -7,12 +7,6 @@
 # are also available for reading.
 # These examples are also used as a testbed for build.sh itself
 #
-if ! [ -f ./buildenv ]; then
-	echo "Need to source from the buildenv directory" >&2
-	return 0
-fi
-
-export ZOPEN_ROOT="${PWD}"
 export ZOPEN_TYPE="GIT"
 export ZOPEN_GIT_URL="https://gitlab.com/cjwatson/man-db.git"
 export ZOPEN_GIT_DEPS="git m4 make libtool"
