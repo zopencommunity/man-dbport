@@ -27,8 +27,6 @@ export _UNIX03=YES
 
 zopen_check_results()
 {
-#!/bin/sh
-#
 # Really simple check - make sure output log has the right line
 #
 dir="$1"
