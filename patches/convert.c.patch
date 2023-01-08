@@ -1,0 +1,18 @@
+diff --git a/src/convert.c b/src/convert.c
+index 447240c..cc07195 100644
+--- a/src/convert.c
++++ b/src/convert.c
+@@ -55,8 +55,13 @@ static void close_conv_to_locale (void *ignored MAYBE_UNUSED)
+ char * ATTRIBUTE_MALLOC convert_to_locale (char *string)
+ {
+ 	if (!conv_to_locale_initialized) {
++  #ifdef __MVS__
++		char *locale_charset = xasprintf
++			("%s", get_locale_charset ());
++  #else
+ 		char *locale_charset = xasprintf
+ 			("%s//IGNORE", get_locale_charset ());
++  #endif
+ 		conv_to_locale = iconv_open (locale_charset, "UTF-8");
+ 		free (locale_charset);
+ 		if (conv_to_locale != (iconv_t) -1)

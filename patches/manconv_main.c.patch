@@ -1,0 +1,16 @@
+diff --git a/src/manconv_main.c b/src/manconv_main.c
+index 0bf09ed..b1605f2 100644
+--- a/src/manconv_main.c
++++ b/src/manconv_main.c
+@@ -111,9 +111,11 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
+ 			return 0;
+ 		case 't':
+ 			to_code = xstrdup (arg);
++    #ifndef __MVS__
+ 			if (!strstr (to_code, "//"))
+ 				to_code = appendstr (to_code, "//TRANSLIT",
+ 						     (void *) 0);
++    #endif
+ 			return 0;
+ 		case 'd':
+ 			debug_level = true;

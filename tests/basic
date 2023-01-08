@@ -1,0 +1,19 @@
+#!/bin/sh
+mydir=$(cd $(dirname $0) && echo $PWD)
+
+export PATH=${mydir}:$PATH
+export MANPATH=/home/fultonm/zopen/prod/vim/share/man
+
+if ! groff --version 2>/dev/null ; then
+  cd $HOME/zopen/prod/groff
+  . ./.env
+  cd $mydir
+fi
+if ! man --version 2>/dev/null ; then
+  cd $HOME/zopen/prod/man
+  . ./.env
+  cd $mydir
+fi
+
+
+man -d vim

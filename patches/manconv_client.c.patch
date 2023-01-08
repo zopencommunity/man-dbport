@@ -1,0 +1,28 @@
+diff --git a/src/manconv_client.c b/src/manconv_client.c
+index 55289ff..8374234 100644
+--- a/src/manconv_client.c
++++ b/src/manconv_client.c
+@@ -111,7 +111,11 @@ void add_manconv (pipeline *p,
+ 		gl_list_add_last (codes->from, xstrdup (source_encoding));
+ 		name = appendstr (name, "UTF-8:", source_encoding, (void *) 0);
+ 	}
++  #ifdef __MVS__
++	codes->to = xasprintf ("%s", target_encoding);
++  #else
+ 	codes->to = xasprintf ("%s//IGNORE", target_encoding);
++  #endif
+ 	/* informational only; no shell quoting concerns */
+ 	name = appendstr (name, " -t ", codes->to, (void *) 0);
+ 	if (quiet >= 2)
+@@ -193,7 +197,11 @@ int manconv_inprocess (decompress *d,
+ 			gl_list_add_last (from, xstrdup ("UTF-8"));
+ 		gl_list_add_last (from, xstrdup (source_encoding));
+ 	}
++  #ifdef __MVS__
++	to = xasprintf ("%s", target_encoding);
++  #else
+ 	to = xasprintf ("%s//IGNORE", target_encoding);
++  #endif
+ 
+ 	outbuf.len = 0;
+ 	/* UTF-8 uses at most four bytes per Unicode code point.  We assume

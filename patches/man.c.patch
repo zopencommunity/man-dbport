@@ -1,5 +1,5 @@
 diff --git a/src/man.c b/src/man.c
-index 761f4b4..88ff6f1 100644
+index 761f4b4..4b861be 100644
 --- a/src/man.c
 +++ b/src/man.c
 @@ -342,12 +342,14 @@ static struct argp_option options[] = {
@@ -17,3 +17,15 @@ index 761f4b4..88ff6f1 100644
  
  static error_t parse_opt (int key, char *arg, struct argp_state *state)
  {
+@@ -1541,7 +1543,11 @@ static void add_output_iconv (pipeline *p,
+ {
+ 	debug ("add_output_iconv: source %s, target %s\n", source, target);
+ 	if (source && target && !STREQ (source, target)) {
++  #ifdef __MVS__
++		char *target_translit = xasprintf ("%s", target);
++  #else
+ 		char *target_translit = xasprintf ("%s//TRANSLIT", target);
++  #endif
+ 		pipecmd *iconv_cmd;
+ 		iconv_cmd = pipecmd_new_args
+ 			("iconv", "-c", "-f", source, "-t", target_translit,
