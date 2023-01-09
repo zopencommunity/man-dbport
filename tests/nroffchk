@@ -1,0 +1,15 @@
+#!/bin/sh
+#
+# The following is the check in 'configure' (before it was patched)
+# but it doesn't work on z/OS (with or without the 'new' tr
+#
+  nroff=nroff
+  if test `$nroff <<EOF | tr -d '\n'
+\\n(.g
+EOF
+` = 1 
+  then
+  echo 'groff nroff'
+  else
+  echo 'not groff nroff'
+  fi

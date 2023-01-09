@@ -15,5 +15,19 @@ if ! man --version 2>/dev/null ; then
   cd $mydir
 fi
 
+man -d vim 
 
-man -d vim
+#cd /home/fultonm/zopen/prod/vim/share/man 
+#cat /home/fultonm/zopen/prod/vim/share/man/man1/vim.1 | /home/fultonm/zopen/prod/man-db-2.10.2/libexec/man-db/zsoelim >/tmp/zsoelim.$$.out
+
+#cd /home/fultonm/zopen/prod/vim/share/man
+#/home/fultonm/zopen/prod/man-db-2.10.2/libexec/man-db/manconv -f UTF-8:ISO-8859-1 -t UTF-8 </tmp/zsoelim.$$.out >/tmp/manconv.$$.out
+
+#cd /home/fultonm/zopen/prod/vim/share/man 
+#preconv -e UTF-8 </tmp/manconv.$$.out >/tmp/preconv.$$.out
+
+#cd /home/fultonm/zopen/prod/vim/share/man
+#tbl </tmp/preconv.$$.out >/tmp/tbl.$$.out
+
+#cd /home/fultonm/zopen/prod/vim/share/man
+#nroff -mg -msafe -mpadj -mandoc -rLL=230n -rLT=230n -Tutf8 </tmp/tbl.$$.out >/tmp/nroff.$$.out

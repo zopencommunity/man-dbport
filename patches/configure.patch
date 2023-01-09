@@ -1,0 +1,16 @@
+diff --git a/configure b/configure
+index 9c7e356..294fd14 100755
+--- a/configure
++++ b/configure
+@@ -18715,10 +18715,7 @@ if test ${man_cv_prog_gnu_nroff+y}
+ then :
+   printf %s "(cached) " >&6
+ else $as_nop
+-  if test `$nroff <<EOF | tr -d '\n'
+-\\n(.g
+-EOF
+-` = 1
++  if [ `$nroff --version | awk '{ if (substr($0, 0, 17) == "GNU nroff (groff)") { print "Y"; }'} ` == 'Y' ]
+    then
+ 	man_cv_prog_gnu_nroff=yes
+    else

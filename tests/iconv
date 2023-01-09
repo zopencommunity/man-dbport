@@ -4,7 +4,7 @@
 # Requires 'bash' for extended 'type' command
 
 entrydir="${PWD}"
-#echo "${PWD}: Input: $@" >>/tmp/iconv$$out
+echo "${PWD}: Input: $@" >>/tmp/iconv$$out
 
 mydir=$(cd $(dirname $0) && echo $PWD)
 
