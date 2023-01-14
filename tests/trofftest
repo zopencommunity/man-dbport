@@ -1,0 +1,21 @@
+#!/bin/sh
+
+mydir=$(cd $(dirname $0) && echo $PWD)
+
+export PATH=${mydir}:$PATH
+export MANPATH=/home/fultonm/zopen/prod/vim/share/man
+
+if ! groff --version >/dev/null 2>&1 ; then
+  cd $HOME/zopen/prod/groff
+  . ./.env
+  cd $mydir
+fi
+
+cd "../man-db-2.10.2/manual"
+
+soelim -I. man_db.me | tbl > man_db.pp.new && mv -f man_db.pp.new man_db.pp
+
+LC_ALL=C nroff -me man_db.pp > man_db.cat.new && mv -f man_db.cat.new man_db.cat
+
+#groff -mtty-char -Tcp1047 -me man_db.pp
+#groff -mtty-char -Tlatin1 -me man_db.pp
