@@ -4,7 +4,7 @@
 # Requires 'bash' for extended 'type' command
 
 entrydir="${PWD}"
-echo "${PWD}: Input: $@" >>/tmp/iconv$$out
+echo "${PWD}: Input: $@" >>/tmp/iconv.$$.out
 
 mydir=$(cd $(dirname $0) && echo $PWD)
 
@@ -20,5 +20,10 @@ for p in $@; do
   fi
   parms="${parms} ${modp}"
 done
-#echo "Output: $parms"
-${realiconv} $parms
+echo "Output: $parms" >>/tmp/iconv.$$.out
+${realiconv} $parms >/tmp/iconv.$$
+rc=$?
+echo "rc: $rc" >>/tmp/iconv.$$.out
+chtag -tcISO8859-1 /tmp/iconv.$$
+cat /tmp/iconv.$$
+exit $rc

@@ -17,17 +17,25 @@ fi
 
 man -d vim 
 
+
+#(cd /home/fultonm/zopen/prod/vim/share/man && /home/fultonm/zopen/prod/man-db-2.10.2/libexec/man-db/zsoelim) | (cd /home/fultonm/zopen/prod/vim/share/man && /home/fultonm/zopen/prod/man-db-2.10.2/libexec/man-db/manconv -f UTF-8:ISO-8859-1 -t UTF-8) | (cd /home/fultonm/zopen/prod/vim/share/man && preconv -e UTF-8) | (cd /home/fultonm/zopen/prod/vim/share/man && tbl) | (cd /home/fultonm/zopen/prod/vim/share/man && nroff -mandoc -rLL=183n -rLT=183n -Tutf8)
+#iconv -c -f UTF-8 -t ISO-8859-1 | col -b -p -x | sed -e '/^[[:space:]]*$/{ N; /^[[:space:]]*\n[[:space:]]*$/D; }'
+
 #cd /home/fultonm/zopen/prod/vim/share/man 
+
 #cat /home/fultonm/zopen/prod/vim/share/man/man1/vim.1 | /home/fultonm/zopen/prod/man-db-2.10.2/libexec/man-db/zsoelim >/tmp/zsoelim.$$.out
 
-#cd /home/fultonm/zopen/prod/vim/share/man
 #/home/fultonm/zopen/prod/man-db-2.10.2/libexec/man-db/manconv -f UTF-8:ISO-8859-1 -t UTF-8 </tmp/zsoelim.$$.out >/tmp/manconv.$$.out
 
-#cd /home/fultonm/zopen/prod/vim/share/man 
 #preconv -e UTF-8 </tmp/manconv.$$.out >/tmp/preconv.$$.out
 
-#cd /home/fultonm/zopen/prod/vim/share/man
 #tbl </tmp/preconv.$$.out >/tmp/tbl.$$.out
 
-#cd /home/fultonm/zopen/prod/vim/share/man
-#nroff -mg -msafe -mpadj -mandoc -rLL=230n -rLT=230n -Tutf8 </tmp/tbl.$$.out >/tmp/nroff.$$.out
+#nroff -mandoc -Tutf8 </tmp/tbl.$$.out >/tmp/nroff.$$.out
+
+#iconv -c -f UTF-8 -t ISO-8859-1 </tmp/nroff.$$.out >/tmp/iconv.$$.out
+#chtag -tcISO8859-1 /tmp/iconv.$$.out
+
+#col -b -p -x </tmp/iconv.$$.out >/tmp/col.$$.out
+
+#sed -e '/^[[:space:]]*$/{ N; /^[[:space:]]*\n[[:space:]]*$/D; }' </tmp/col.$$.out # >/tmp/sed.$$.out
