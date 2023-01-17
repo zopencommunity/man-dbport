@@ -1,0 +1,48 @@
+#!/bin/sh
+#
+# Verify that a basic 'man' works by issuing the pipeline of commands (hardcoded for 120 columns)
+#
+if [ $# -eq 0 ]; then
+  cmd="man"
+else
+  cmd="$1"
+fi
+
+mydir=$(cd $(dirname $0) && echo $PWD)
+
+export PATH=${mydir}:$PATH
+export MANPATH=/home/fultonm/zopen/prod/vim/share/man
+
+if ! groff --version 2>/dev/null ; then
+  cd $HOME/zopen/prod/groff
+  . ./.env
+  cd $mydir
+fi
+if ! man --version 2>/dev/null ; then
+  cd $HOME/zopen/prod/man
+  . ./.env
+  cd $mydir
+fi
+if ! iconv --version 2>/dev/null ; then
+  cd $HOME/zopen/prod/libiconv
+  . ./.env
+  cd $mydir
+fi
+
+#
+# This 'should work' to just call man, but it is not quite yet
+#
+#man -d man >out 2>err
+
+manfile=$(find $HOME/zopen/prod/ -name "${cmd}.1" | head -1)
+if [ "${manfile}x" = "x" ]; then
+  echo "Unable to find man page for ${cmd}" >&2
+  exit 4
+fi
+if ! $(tput -V 2>/dev/null >/dev/null) ; then
+  echo "Need ncurses to determine number of columns" >&2
+  exit 4
+fi
+cols=$(tput cols)
+
+cat "${manfile}" | (cd /home/fultonm/zopen/prod/vim/share/man && /home/fultonm/zopen/prod/man-db-2.10.2/libexec/man-db/zsoelim) | (cd /home/fultonm/zopen/prod/vim/share/man && /home/fultonm/zopen/prod/man-db-2.10.2/libexec/man-db/manconv -f UTF-8:ISO-8859-1 -t UTF-8//IGNORE) | (cd /home/fultonm/zopen/prod/vim/share/man && preconv -e UTF-8) | (cd /home/fultonm/zopen/prod/vim/share/man && tbl) | (cd /home/fultonm/zopen/prod/vim/share/man && nroff -mandoc -rLL=${cols}n -rLT=${cols}n -Tutf8) | less -r

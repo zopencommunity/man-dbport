@@ -6,7 +6,7 @@ index 55289ff..8374234 100644
  		gl_list_add_last (codes->from, xstrdup (source_encoding));
  		name = appendstr (name, "UTF-8:", source_encoding, (void *) 0);
  	}
-+  #ifdef __MVS__
++  #ifdef __XXX__
 +	codes->to = xasprintf ("%s", target_encoding);
 +  #else
  	codes->to = xasprintf ("%s//IGNORE", target_encoding);
@@ -18,7 +18,7 @@ index 55289ff..8374234 100644
  			gl_list_add_last (from, xstrdup ("UTF-8"));
  		gl_list_add_last (from, xstrdup (source_encoding));
  	}
-+  #ifdef __MVS__
++  #ifdef __XXX__
 +	to = xasprintf ("%s", target_encoding);
 +  #else
  	to = xasprintf ("%s//IGNORE", target_encoding);

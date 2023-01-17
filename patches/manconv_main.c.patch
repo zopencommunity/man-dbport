@@ -6,7 +6,7 @@ index 0bf09ed..b1605f2 100644
  			return 0;
  		case 't':
  			to_code = xstrdup (arg);
-+    #ifndef __MVS__
++    #ifndef __XXX__
  			if (!strstr (to_code, "//"))
  				to_code = appendstr (to_code, "//TRANSLIT",
  						     (void *) 0);

@@ -21,7 +21,7 @@ index 761f4b4..4b861be 100644
  {
  	debug ("add_output_iconv: source %s, target %s\n", source, target);
  	if (source && target && !STREQ (source, target)) {
-+  #ifdef __MVS__
++  #ifdef __XXX__
 +		char *target_translit = xasprintf ("%s", target);
 +  #else
  		char *target_translit = xasprintf ("%s//TRANSLIT", target);

@@ -12,7 +12,7 @@ export ZOPEN_GIT_DEPS="git m4 make perl autoconf automake gettext libtool"
 
 MAN_DB_VER="man-db-2.10.2"
 export ZOPEN_TARBALL_URL="https://download.savannah.nongnu.org/releases/man-db/${MAN_DB_VER}.tar.xz"
-export ZOPEN_TARBALL_DEPS="curl make xz gzip libtool autoconf automake gettext m4 perl zoslib wget coreutils gdbm pipeline groff"
+export ZOPEN_TARBALL_DEPS="curl make xz gzip libtool autoconf automake gettext m4 perl zoslib wget coreutils libiconv gdbm pipeline groff"
 
 export ZOPEN_EXTRA_CONFIGURE_OPTS='--disable-cache-owner'
 
@@ -35,10 +35,10 @@ zopen_check_results()
 #Testsuite summary for man-db 2.10.2
 #============================================================================
 # TOTAL: 31
-# PASS:  10
+# PASS:  12
 # SKIP:  0
 # XFAIL: 0
-# FAIL:  21
+# FAIL:  19
 # XPASS: 0
 # ERROR: 0
   dir="$1"
@@ -47,7 +47,7 @@ zopen_check_results()
 
   totalTests=$(grep '# TOTAL:' $chk | awk '{ print $3 }')
   actualFailures=$(grep '# FAIL:' $chk | awk '{ print $3 }')
-  expectedFailures=21
+  expectedFailures=19
   echo "actualFailures:${actualFailures}"
   echo "totalTests:${totalTests}"
   echo "expectedFailures:${expectedFailures}"

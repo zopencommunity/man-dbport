@@ -6,7 +6,7 @@ index 447240c..cc07195 100644
  char * ATTRIBUTE_MALLOC convert_to_locale (char *string)
  {
  	if (!conv_to_locale_initialized) {
-+  #ifdef __MVS__
++  #ifdef __XXX__
 +		char *locale_charset = xasprintf
 +			("%s", get_locale_charset ());
 +  #else
