@@ -10,8 +10,6 @@ fi
 
 mydir=$(cd $(dirname $0) && echo $PWD)
 
-export PATH=${mydir}:$PATH
-export MANPATH=/home/fultonm/zopen/prod/vim/share/man
 
 if ! groff --version 2>/dev/null ; then
   cd $HOME/zopen/prod/groff
@@ -29,10 +27,16 @@ if ! iconv --version 2>/dev/null ; then
   cd $mydir
 fi
 
+export PATH=${mydir}:$PATH
+
 #
 # This 'should work' to just call man, but it is not quite yet
 #
-#man -d man >out 2>err
+#export PIPELINE_DEBUG=1
+#whence nroff
+#man -d "${cmd}" >out 2>err
+
+#exit 0
 
 manfile=$(find $HOME/zopen/prod/ -name "${cmd}.1" | head -1)
 if [ "${manfile}x" = "x" ]; then

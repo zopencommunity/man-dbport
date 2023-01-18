@@ -1,0 +1,17 @@
+#!/bin/env bash
+set -x
+# Simple front end to nroff
+# Requires 'bash' for extended 'type' command
+
+entrydir="${PWD}"
+echo "${PWD}: Input: $@" >>/tmp/nroff.$$.out
+
+mydir=$(cd $(dirname $0) && echo $PWD)
+
+allnroff=$(type -ap nroff)
+realnroff=$(echo "${allnroff}" | tail -1)
+
+${realnroff} $@ 
+rc=$?
+echo "rc: $rc" >>/tmp/nroff.$$.out
+exit $rc
