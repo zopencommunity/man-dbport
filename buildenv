@@ -16,8 +16,6 @@ export ZOPEN_TARBALL_DEPS="curl make xz gzip libtool autoconf automake gettext m
 
 export ZOPEN_EXTRA_CONFIGURE_OPTS='--disable-cache-owner'
 
-export ZOPEN_COMP=CLANG
-
 if [ "${ZOPEN_TYPE}" = "TARBALL" ]; then
   export libpipeline_CFLAGS="\${CFLAGS}"
   export libpipeline_CPPFLAGS="\${CPPFLAGS}"
