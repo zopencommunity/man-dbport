@@ -16,6 +16,8 @@ export ZOPEN_TARBALL_DEPS="curl make xz gzip libtool autoconf automake gettext m
 
 export ZOPEN_EXTRA_CONFIGURE_OPTS='--disable-cache-owner'
 
+export ZOPEN_RUNTIME_DEPS="groff libiconv less"
+
 if [ "${ZOPEN_TYPE}" = "TARBALL" ]; then
   export libpipeline_CFLAGS="\${CFLAGS}"
   export libpipeline_CPPFLAGS="\${CPPFLAGS}"
@@ -35,10 +37,10 @@ zopen_check_results()
 #Testsuite summary for man-db 2.10.2
 #============================================================================
 # TOTAL: 31
-# PASS:  12
+# PASS:  29
 # SKIP:  0
 # XFAIL: 0
-# FAIL:  19
+# FAIL:  2
 # XPASS: 0
 # ERROR: 0
   dir="$1"
@@ -47,9 +49,12 @@ zopen_check_results()
 
   totalTests=$(grep '# TOTAL:' $chk | awk '{ print $3 }')
   actualFailures=$(grep '# FAIL:' $chk | awk '{ print $3 }')
-  expectedFailures=19
+  expectedFailures=2
   echo "actualFailures:${actualFailures}"
   echo "totalTests:${totalTests}"
   echo "expectedFailures:${expectedFailures}"
 }
 
+zopen_get_version() {
+  ./src/man --version | awk ' { print $2; } '
+}

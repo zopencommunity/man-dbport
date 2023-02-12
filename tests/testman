@@ -3,6 +3,8 @@
 # Verify that a basic 'man' works by issuing the pipeline of commands 
 #
 
+#set -x
+
 prereq() 
 {
   echo "myman <cmd>" >&2
@@ -47,16 +49,16 @@ if ! ${cmd} --version >/dev/null 2>/dev/null ; then
   cd $mydir
 fi
 
-export PATH=$HOME/zopen/prod/man-db-2.10.2/libexec/man-db:$PATH
+#export PATH=$HOME/zopen/prod/man-db-2.10.2/libexec/man-db:$PATH
 
 #
 # This 'should work' to just call man, but it is not quite yet
 #
 #export PIPELINE_DEBUG=1
-#whence nroff
 #man -d "${cmd}" >out 2>err
+man "${cmd}"
 
-#exit 0
+exit 0
 
 manfile=$(find $HOME/zopen/prod/ -name "${cmd}.1" | head -1)
 if [ "${manfile}x" = "x" ]; then
