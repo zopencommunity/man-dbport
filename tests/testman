@@ -1,0 +1,74 @@
+#!/bin/sh
+#
+# Verify that a basic 'man' works by issuing the pipeline of commands 
+#
+
+#set -x
+
+prereq() 
+{
+  echo "myman <cmd>" >&2
+  echo "  temporary work-around until proper 'man' working" >&2
+  echo "  requires 'groff', 'man', 'iconv', 'less' be installed into prod" >&2
+  echo "  also requires <cmd> be installed into prod" >&2
+  exit 99
+}
+
+if [ $# -eq 1 ]; then
+  cmd="$1"
+else
+  prereq
+fi
+
+mydir=$(cd $(dirname $0) && echo $PWD)
+
+if ! groff --version >/dev/null 2>/dev/null ; then
+  cd $HOME/zopen/prod/groff || prereq
+  . ./.env
+  cd $mydir
+fi
+if ! man --version >/dev/null 2>/dev/null ; then
+  cd $HOME/zopen/prod/man || prereq
+  . ./.env
+  cd $mydir
+fi
+if ! iconv --version >/dev/null 2>/dev/null ; then
+  cd $HOME/zopen/prod/libiconv || prereq
+  . ./.env
+  cd $mydir
+fi
+if ! less --version >/dev/null 2>/dev/null ; then
+  cd $HOME/zopen/prod/less || prereq
+  . ./.env
+  cd $mydir
+fi
+
+if ! ${cmd} --version >/dev/null 2>/dev/null ; then
+  cd $HOME/zopen/prod/${cmd} || prereq
+  . ./.env
+  cd $mydir
+fi
+
+#export PATH=$HOME/zopen/prod/man-db-2.10.2/libexec/man-db:$PATH
+
+#
+# This 'should work' to just call man, but it is not quite yet
+#
+#export PIPELINE_DEBUG=1
+#man -d "${cmd}" >out 2>err
+man "${cmd}"
+
+exit 0
+
+manfile=$(find $HOME/zopen/prod/ -name "${cmd}.1" | head -1)
+if [ "${manfile}x" = "x" ]; then
+  echo "Unable to find man page for ${cmd}" >&2
+  exit 4
+fi
+if ! $(tput -V 2>/dev/null >/dev/null) ; then
+  echo "Need ncurses to determine number of columns" >&2
+  exit 4
+fi
+cols=$(tput cols)
+
+cat "${manfile}" | zsoelim | manconv -f UTF-8:ISO-8859-1 -t UTF-8//IGNORE | preconv -e UTF-8 | tbl | nroff -mandoc -rLL=${cols}n -rLT=${cols}n -Tutf8 | less -r
