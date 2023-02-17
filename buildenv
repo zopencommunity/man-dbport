@@ -12,11 +12,9 @@ export ZOPEN_GIT_DEPS="git m4 make perl autoconf automake gettext libtool"
 
 MAN_DB_VER="man-db-2.10.2"
 export ZOPEN_TARBALL_URL="https://download.savannah.nongnu.org/releases/man-db/${MAN_DB_VER}.tar.xz"
-export ZOPEN_TARBALL_DEPS="curl make xz gzip libtool autoconf automake gettext m4 perl zoslib wget coreutils libiconv gdbm ncurses libpipeline groff less"
-
+export ZOPEN_TARBALL_DEPS="curl make xz gzip libtool autoconf automake gettext m4 perl zoslib wget coreutils libiconv gdbm ncurses libpipeline groff less sed grep diffutils"
 export ZOPEN_EXTRA_CONFIGURE_OPTS='--disable-cache-owner'
 export LESSCHARSET=utf-8
-
 export ZOPEN_RUNTIME_DEPS="groff libiconv less"
 
 if [ "${ZOPEN_TYPE}" = "TARBALL" ]; then
