@@ -1,5 +1,5 @@
 diff --git a/src/man.c b/src/man.c
-index 761f4b4..4b861be 100644
+index 761f4b4..95fe3f4 100644
 --- a/src/man.c
 +++ b/src/man.c
 @@ -342,12 +342,14 @@ static struct argp_option options[] = {
@@ -29,3 +29,31 @@ index 761f4b4..4b861be 100644
  		pipecmd *iconv_cmd;
  		iconv_cmd = pipecmd_new_args
  			("iconv", "-c", "-f", source, "-t", target_translit,
+@@ -4417,8 +4423,25 @@ int main (int argc, char *argv[])
+ 					if (!section && maybe_section &&
+ 					    CTYPE (isdigit, nextarg[0]))
+ 						gripe_no_name (nextarg);
+-					else
+-						gripe_no_man (nextarg, section);
++					else {
++#ifdef __MVS__
++            char* fmt = "/bin/man %s %s 2>/dev/null";
++            char* cmd = malloc(strlen(nextarg)+strlen(section)+strlen(fmt)+1);
++            int rc = 0;
++            if (cmd) {
++              sprintf(cmd, fmt, section, nextarg);
++              rc = system(cmd);
++            }
++            if (!cmd || rc) {
++					    gripe_no_man (nextarg, section);
++            }
++            if (cmd) {
++              free(cmd);
++            }
++          }
++#else
++					gripe_no_man (nextarg, section);
++#endif
+ 				}
+ 			}
+ 		} else {
