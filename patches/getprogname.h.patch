@@ -1,0 +1,22 @@
+diff --git a/gl/lib/getprogname.h b/gl/lib/getprogname.h
+index 9a35e58..f61ee97 100644
+--- a/gl/lib/getprogname.h
++++ b/gl/lib/getprogname.h
+@@ -23,6 +23,9 @@
+ extern "C" {
+ #endif
+ 
++#ifdef __MVS__
++  extern char const *getprogname (void);
++#else
+ /* Return the base name of the executing program.
+    On native Windows this will usually end in ".exe" or ".EXE". */
+ #ifndef HAVE_GETPROGNAME
+@@ -32,6 +35,7 @@ extern char const *getprogname (void)
+ # endif
+   ;
+ #endif
++#endif
+ 
+ #ifdef __cplusplus
+ }
