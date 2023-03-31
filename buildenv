@@ -61,6 +61,12 @@ export MAN_TEST_DISABLE_SYSTEM_CONFIG=1
 EOF
 }
 
+zopen_append_to_zoslib_env() {
+cat <<EOF
+MAN_TEST_DISABLE_SYSTEM_CONFIG|set|1
+EOF
+}
+
 zopen_get_version() {
   ./src/man --version | awk ' { print $2; } '
 }
