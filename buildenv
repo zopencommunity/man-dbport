@@ -47,8 +47,14 @@ zopen_check_results()
   chk="$1/$2_check.log"
 
   totalTests=$(grep '# TOTAL:' $chk | awk '{ print $3 }')
-  actualFailures=$(grep '# FAIL:' $chk | awk '{ print $3 }')
-  expectedFailures=1
+  failureTests=$(grep -e '^FAIL:' $chk)
+  if [ "${failureTests}x" = "x" ]; then
+    actualFailures=0
+  else
+    actualFailures=$(echo "${failureTests}" | wc -l)
+  fi
+  expectedFailures=2
+  echo "${failureTests}" >"$1/$2_check_failures.log"
   echo "actualFailures:${actualFailures}"
   echo "totalTests:${totalTests}"
   echo "expectedFailures:${expectedFailures}"
@@ -56,7 +62,7 @@ zopen_check_results()
 
 zopen_append_to_env() {
 cat <<EOF
-# temporary 
+# temporary
 export MAN_TEST_DISABLE_SYSTEM_CONFIG=1
 EOF
 }
