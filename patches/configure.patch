@@ -1,8 +1,18 @@
 diff --git a/configure b/configure
-index 9c7e356..294fd14 100755
+index 9c7e356..955e2f9 100755
 --- a/configure
 +++ b/configure
-@@ -18715,10 +18715,7 @@ if test ${man_cv_prog_gnu_nroff+y}
+@@ -11572,6 +11572,9 @@ case $host_os in
+ aix[4-9]*)
+   lt_cv_deplibs_check_method=pass_all
+   ;;
++openedition)
++  lt_cv_deplibs_check_method=pass_all
++  ;;
+ 
+ beos*)
+   lt_cv_deplibs_check_method=pass_all
+@@ -18715,10 +18718,7 @@ if test ${man_cv_prog_gnu_nroff+y}
  then :
    printf %s "(cached) " >&6
  else $as_nop
