@@ -1,0 +1,60 @@
+#!/bin/zosmangentest
+#
+# Test zosmangen
+#
+
+zosmangen="./zosmangen"
+
+if ! [ -f "${zosmangen}" ]; then
+  echo "Need to run $0 from same directory as zosmangen" >&2
+  exit 4
+fi
+out=$(${zosmangen} -h 2>/dev/null)
+if [ $? -eq 0 ]; then
+  echo "Help did not return non-zero" >&2
+  exit 4
+fi
+if [ "x${out}" != "x" ]; then
+  echo "Help wrote to stdout and not just stderr" >&2
+  exit 4
+fi
+
+nexistdir="/tmp/zosmangenntest/$$"
+rm -rf "${nexistoutdir}"
+existdir="/usr/man/C"
+
+if ! [ -d "${existdir}" ]; then
+  echo "This test expects ${existdir} to be a z/OS style man directory that exists" >&2
+  exit 4
+fi
+
+$(${zosmangen} 2>/dev/null)
+if [ $? -eq 0 ]; then
+  echo "Error case where neither -d nor -o specified should have failed" >&2
+  exit 4
+fi
+$(${zosmangen} -d "${existdir}" 2>/dev/null)
+if [ $? -eq 0 ]; then
+  echo "Error case where -o not specified should have failed" >&2
+  exit 4
+fi
+$(${zosmangen} -o "${nexistdir}" 2>/dev/null)
+if [ $? -eq 0 ]; then
+  echo "Error case where -d not specified should have failed" >&2
+  exit 4
+fi
+$(${zosmangen} -d "${existdir}" -o "${existdir}" 2>/dev/null)
+if [ $? -eq 0 ]; then
+  echo "Error case where -o specifies an existing directory but -f not specified should have failed" >&2
+  exit 4
+fi
+$(${zosmangen} -d "${nexistdir}" -o "${nexistdir}" 2>/dev/null)
+if [ $? -eq 0 ]; then
+  echo "Error case where -d specifies a non-existant directory should have failed" >&2
+  exit 4
+fi
+$(${zosmangen} -d "${existdir}" -o "${existdir}" -f 2>/dev/null)
+if ! [ $? -eq 0 ]; then
+  echo "Valid case where -d specifies empty directory should have passed (nothing to do, but ok)" >&2
+  exit 4
+fi
