@@ -1,0 +1,50 @@
+#!/bin/sh
+
+#
+# zosmangen: script that will generate man pages from the z/OS man pages
+#
+# zosmangen -h provides syntax
+#
+Help()
+{
+  echo "$0 : Generate GNU man pages from z/OS man pages" >&2
+  echo "$0 [-h?] -d <input directory> -o <output directory>" >&2
+  echo "Options:" >&2
+  echo "  -h or -?             : print out this syntax" >&2
+  echo "  -d <input directory> : specify the directory the z/OS man pages are searched for via MANPATH" >&2
+  echo "  -o <output directory : specify the directory to write the GNU man pages to" >&2
+  echo "Example: Read z/OS man pages from /usr/man/C and generate GNU man pages under /usr/local/zopen/zosman" >&2
+  echo "$0 -d /usr/man/C -o /usr/local/zopen/zosman" >&2
+}
+ 
+input=''
+output=''
+while getopts ":h:?do" option; do
+  case $option in
+    h) # display Help
+      Help
+      exit;;
+    ?) # display Help
+      Help
+      exit;;
+    d) # input directory
+      input="${OPTARG}";;
+    o) # output directory
+      output="${OPTARG}";;
+   \?) # Invalid option
+      echo "Invalid option ${option}" >&2
+      exit;;
+  esac
+done
+
+if [ "x${input}" = "x" ] ; then
+  echo "Input directory must be specified by -d" >&2
+  Help
+  exit 4
+fi
+
+if [ "x${output}" = "x" ] ; then
+  echo "Output directory must be specified by -o" >&2
+  Help
+  exit 4
+fi
