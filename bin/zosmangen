@@ -5,6 +5,8 @@
 #
 # zosmangen -h provides syntax
 #
+zosman="/bin/man"
+
 Help()
 {
   echo "$0 : Generate GNU man pages from z/OS man pages" >&2
@@ -17,6 +19,23 @@ Help()
   echo "Example: Read z/OS man pages from /usr/man/C and generate GNU man pages under /usr/local/zopen/zosman" >&2
   echo "$0 -d /usr/man/C -o /usr/local/zopen/zosman" >&2
 }
+
+ZOSCommands() 
+{
+  ZOSCommands_input="${1}"
+
+  # Directory existance tested by caller
+  out=$( ( export MANPATH="${ZOSCommands_input}"; ${zosman} -k .) )
+  if [ $? -gt 0 ]; then
+    echo "Unable to run ${zosman} on directory ${ZOSCommands_input}" >&2
+    Help
+  fi
+
+  lines=$(echo "${out}" | awk ' { if ($2 == "-") { print $1; }}')
+  echo "${lines}"
+  return 0
+}
+
  
 input=''
 output=''
@@ -63,3 +82,14 @@ if [ -d "${output}" ] && ! ${force} ; then
   exit 4
 fi
 
+if ! mkdir -p "${output}" ; then
+  echo "Unable to create output directory ${output}" >&2
+  Help
+  exit 4
+fi
+
+cmds=$(ZOSCommands "${input}") 
+if [ $? -gt 0 ] ; then
+  Help
+  exit 4
+fi
