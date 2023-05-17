@@ -80,7 +80,49 @@ ZOSCommands()
   return 0
 }
 
- 
+# Convert mixed case titles like Format, Description, Options, Localization, Usage notes, Exit values, Portability, Relative information
+# to corresponding upper-case versions with no leading blanks and prepend a first line called NAME
+
+GNUManFix() {
+  infile="$1"
+
+  input=$(cat "${infile}")
+  echo "NAME"
+  echo "${input}" | while read -r line; do
+    case $line in
+      Format)
+        outline='FORMAT'
+        ;;
+      Description)
+        outline='DESCRIPTION'
+        ;;
+      Options)
+        outline='OPTIONS'
+        ;;
+      Localization)
+        outline='LOCALIZATION'
+        ;;
+      Usage.Notes)
+        outline='USAGE NOTES'
+        ;;
+      Exit.Values*)
+        outline='EXIT VALUES'
+        ;;
+      Portability)
+        outline='PORTABILITY'
+        ;;
+      Related.Information)
+        outline='RELATIVE INFORMATION'
+        ;;
+      *)
+        outline="${line}"
+        ;;
+    esac
+    echo "${outline}"
+  done
+  return 0
+}
+
 input=''
 output=''
 force=false
