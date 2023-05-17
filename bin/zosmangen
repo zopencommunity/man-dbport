@@ -24,15 +24,59 @@ ZOSCommands()
 {
   ZOSCommands_input="${1}"
 
-  # Directory existance tested by caller
+    # Directory existance tested by caller
   out=$( ( export MANPATH="${ZOSCommands_input}"; ${zosman} -k .) )
   if [ $? -gt 0 ]; then
     echo "Unable to run ${zosman} on directory ${ZOSCommands_input}" >&2
     Help
   fi
 
-  lines=$(echo "${out}" | awk ' { if ($2 == "-") { print $1; }}')
-  echo "${lines}"
+  echo "${out}" | while read -r line; do
+    start=$( echo "${line}" | cut -b 1-13 )
+    delim=$( echo "${line}" | cut -b 14 )
+    end=$( echo "${line}" | cut -b 15- )
+    start=${start%% *}
+
+    tcsh=${end%(tcsh shell)*}
+    if [ "x${tcsh}" = "x${end}" ]; then
+      prefix=''
+    else
+      prefix="tcsh"
+    fi    
+
+    if [ "x${delim}" = "x-" ]; then
+      # new entry
+      if [ "${start%%-}" = "${start}" ]; then
+        # no continuation in the name
+        cmd="${start}"
+        cont=false
+      else
+        cmd="${start%%-*}"
+        cont=true
+      fi
+    else
+      # continuation of command or description
+      if ${cont} ; then
+        cmd="${cmd}${start}"
+        cont=false
+      else
+        # if there is a delimiter later in the line
+        # then treat this as a special case, e.g.
+        # ssh-rand-helper - Gather randon numbers for OpenSSH
+        possible_cmd=${line% - *}
+        if ! [ "x${possible_cmd}" = "x${line}" ]; then
+          cmd="${possible_cmd}"
+        else
+          cmd=''
+        fi
+      fi
+    fi
+    if ! ${cont} ; then
+      if ! [ "x${cmd}" = "x" ]; then
+        echo "${prefix}${cmd}"
+      fi
+    fi
+  done
   return 0
 }
 
@@ -93,3 +137,11 @@ if [ $? -gt 0 ] ; then
   Help
   exit 4
 fi
+
+export MANPATH="${input}"
+for cmd in $cmds ; do
+  "${zosman}" "${cmd}" >"${output}/${cmd}.txt"
+  if [ $? -gt 0 ]; then
+    echo "${zosman} unable to find command ${cmd}" >&2
+  fi
+done
