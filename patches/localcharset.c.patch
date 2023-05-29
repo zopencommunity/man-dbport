@@ -1,0 +1,13 @@
+diff --git a/gl/lib/localcharset.c b/gl/lib/localcharset.c
+index 17a4a1e..0f55629 100644
+--- a/gl/lib/localcharset.c
++++ b/gl/lib/localcharset.c
+@@ -1061,7 +1061,7 @@ locale_charset (void)
+         /* Did not find it in the table.  */
+         /* On Mac OS X, all modern locales use the UTF-8 encoding.
+            BeOS and Haiku have a single locale, and it has UTF-8 encoding.  */
+-# if (defined __APPLE__ && defined __MACH__) || defined __BEOS__ || defined __HAIKU__
++# if (defined __APPLE__ && defined __MACH__) || defined __BEOS__ || defined __HAIKU__ || defined __MVS__
+         codeset = "UTF-8";
+ # else
+         /* Don't return an empty string.  GNU libc and GNU libiconv interpret
