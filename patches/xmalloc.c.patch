@@ -1,8 +1,12 @@
 diff --git a/gl/lib/xmalloc.c b/gl/lib/xmalloc.c
-index 993c1ee..042823a 100644
+index 993c1ee..747542b 100644
 --- a/gl/lib/xmalloc.c
 +++ b/gl/lib/xmalloc.c
-@@ -77,10 +77,15 @@ xirealloc (void *p, idx_t s)
+@@ -74,13 +74,24 @@ xirealloc (void *p, idx_t s)
+   return nonnull (irealloc (p, s));
+ }
+ 
++#ifdef __MVS__
  /* Change the size of an allocated block of memory P to an array of N
     objects each of S bytes, with error checking.  */
  
@@ -10,12 +14,16 @@ index 993c1ee..042823a 100644
 +{
 +  return realloc(p, n*s);
 +}
++#endif
 +
  void *
  xreallocarray (void *p, size_t n, size_t s)
  {
--  void *r = reallocarray (p, n, s);
++#ifdef __MVS__
 +  void *r = mvsreallocarray (p, n, s);
++#else
+   void *r = reallocarray (p, n, s);
++#endif
    if (!r && (!p || (n && s)))
      xalloc_die ();
    return r;
