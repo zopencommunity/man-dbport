@@ -1,14 +1,10 @@
-# Set up environment variables for general build tool to operate
-# This buildenv is a sample. It describes the minimal environment
-# variables required to set up a port environment.
-# Alternate environment configurations of the name setenv_<variant>.sh
-# are also available for reading.
-# These examples are also used as a testbed for build.sh itself
 #
-export ZOPEN_TYPE="TARBALL"
+# Set up environment variables for man build to operate
+#
+export ZOPEN_TYPE="GIT"
 
 export ZOPEN_GIT_URL="https://gitlab.com/cjwatson/man-db.git"
-export ZOPEN_GIT_DEPS="git m4 make perl autoconf automake gettext libtool"
+export ZOPEN_GIT_DEPS="git make xz gzip libtool autoconf automake gettext m4 perl zoslib wget coreutils libiconv libgdbm ncurses libpipeline groff less sed grep diffutils"
 
 MAN_DB_VER="man-db-2.10.2"
 export ZOPEN_TARBALL_URL="https://download.savannah.nongnu.org/releases/man-db/${MAN_DB_VER}.tar.xz"
@@ -17,18 +13,17 @@ export ZOPEN_EXTRA_CONFIGURE_OPTS='--disable-cache-owner'
 export LESSCHARSET=utf-8
 export ZOPEN_RUNTIME_DEPS="groff libiconv less ncurses"
 
-if [ "${ZOPEN_TYPE}" = "TARBALL" ]; then
-  export libpipeline_CFLAGS="\${CFLAGS}"
-  export libpipeline_CPPFLAGS="\${CPPFLAGS}"
-  #export libpipeline_LIBS="\${LIBS}"
-  export libpipeline_LIBS="-lpipeline"
+rm -f patches
+if [ "${ZOPEN_TYPE}x" = "TARBALLx" ]; then
+  ln -s tarball-patches patches
   export ZOPEN_BOOTSTRAP=skip
+else
+  ln -s git-patches patches
 fi
 
-#
-# Required for proper operation of (USS shipped) sed
-#
-export _UNIX03=YES
+export libpipeline_CFLAGS="\${CFLAGS}"
+export libpipeline_CPPFLAGS="\${CPPFLAGS}"
+export libpipeline_LIBS="-lpipeline"
 
 zopen_check_results()
 {
