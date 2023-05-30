@@ -1,0 +1,13 @@
+diff --git a/configure.ac b/configure.ac
+index 0c3f02a2..bed136ae 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -70,7 +70,7 @@ AC_ARG_ENABLE([gcc-warnings],
+      if available])],
+   [case $enableval in
+      no|yes|expensive) ;;
+-     *) AC_MSG_ERROR([bad value $enableval for gcc-warnings option]) ;;
++     *) AC_MSG_FAILURE([bad value $enableval for gcc-warnings option]) ;;
+    esac
+    man_gcc_warnings=$enableval],
+   [man_gcc_warnings=yes]
