@@ -1,10 +1,11 @@
 #
 # Set up environment variables for man build to operate
 #
-export ZOPEN_TYPE="GIT"
+export ZOPEN_TYPE="TARBALL"
 
 export ZOPEN_GIT_URL="https://gitlab.com/cjwatson/man-db.git"
-export ZOPEN_GIT_DEPS="git make xz gzip tar pkgconfig libtool autoconf automake gettext m4 perl zoslib wget coreutils libiconv libgdbm ncurses libpipeline groff less sed grep diffutils"
+
+export ZOPEN_GIT_DEPS="git make xz gzip tar pkgconfig flex libtool autoconf automake gettext m4 perl zoslib wget coreutils libiconv libgdbm ncurses groff less sed grep diffutils libpipeline"
 
 MAN_DB_VER="man-db-2.10.2"
 export ZOPEN_TARBALL_URL="https://download.savannah.nongnu.org/releases/man-db/${MAN_DB_VER}.tar.xz"
@@ -17,13 +18,16 @@ rm -f patches
 if [ "${ZOPEN_TYPE}x" = "TARBALLx" ]; then
   ln -s tarball-patches patches
   export ZOPEN_BOOTSTRAP=skip
+  export libpipeline_CFLAGS="\${CFLAGS}"
+  export libpipeline_CPPFLAGS="\${CPPFLAGS}"
+  export libpipeline_LIBS="-lpipeline"
 else
   ln -s git-patches patches
+  export ZOPEN_EXTRA_LDFLAGS='-Wl,map'
+  export libpipeline_CFLAGS="\${CFLAGS}"
+  export libpipeline_CPPFLAGS="\${CPPFLAGS}"
+  export libpipeline_LIBS="-lpipeline"
 fi
-
-export libpipeline_CFLAGS="\${CFLAGS}"
-export libpipeline_CPPFLAGS="\${CPPFLAGS}"
-export libpipeline_LIBS="-lpipeline"
 
 zopen_check_results()
 {
