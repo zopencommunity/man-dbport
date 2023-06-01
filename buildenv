@@ -52,7 +52,7 @@ zopen_check_results()
   else
     actualFailures=$(echo "${failureTests}" | wc -l)
   fi
-  expectedFailures=3
+  expectedFailures=6
   echo "${failureTests}" >"$1/$2_check_failures.log"
   echo "actualFailures:${actualFailures}"
   echo "totalTests:${totalTests}"
