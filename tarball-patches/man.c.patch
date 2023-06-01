@@ -1,28 +1,12 @@
 diff --git a/src/man.c b/src/man.c
-index 761f4b4..2465861 100644
+index f072c75..dd51448 100644
 --- a/src/man.c
 +++ b/src/man.c
-@@ -342,12 +342,14 @@ static struct argp_option options[] = {
- 	{ 0 }
- };
- 
-+# ifdef TROFF_IS_GROFF
- static void init_html_pager (void)
- {
- 	html_pager = getenv ("BROWSER");
- 	if (!html_pager)
- 		html_pager = PROG_BROWSER;
- }
-+#endif
- 
- static error_t parse_opt (int key, char *arg, struct argp_state *state)
- {
-@@ -4417,8 +4419,25 @@ int main (int argc, char *argv[])
+@@ -4440,7 +4440,25 @@ int main (int argc, char *argv[])
  					if (!section && maybe_section &&
  					    CTYPE (isdigit, nextarg[0]))
  						gripe_no_name (nextarg);
 -					else
--						gripe_no_man (nextarg, section);
 +					else {
 +#ifdef __MVS__
 +            char* fmt = "/bin/man %s %s 2>/dev/null";
@@ -42,6 +26,6 @@ index 761f4b4..2465861 100644
 +#else
 +					gripe_no_man (nextarg, section);
 +#endif
+ 						gripe_no_man (nextarg, section);
  				}
  			}
- 		} else {
