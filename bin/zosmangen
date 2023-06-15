@@ -23,8 +23,7 @@ Help()
 ZOSCommands() 
 {
   ZOSCommands_input="${1}"
-
-    # Directory existance tested by caller
+  # Directory existance tested by caller
   out=$( ( export MANPATH="${ZOSCommands_input}"; ${zosman} -k .) )
   if [ $? -gt 0 ]; then
     echo "Unable to run ${zosman} on directory ${ZOSCommands_input}" >&2
@@ -130,17 +129,21 @@ while getopts "fhd:o:" option; do
   case $option in
     h) # display Help
       Help
-      exit 4;;
+      exit 4
+      ;;
     f) # force write to existing directory
       force=true
-      exit;;
+      ;;
     d) # input directory
-      input="${OPTARG}";;
+      input="${OPTARG}"
+      ;;
     o) # output directory
-      output="${OPTARG}";;
+      output="${OPTARG}"
+      ;;
    \?) # Invalid option
       echo "Invalid option ${option}" >&2
-      exit 4;;
+      exit 4
+      ;;
   esac
 done
 
