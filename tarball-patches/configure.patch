@@ -1,5 +1,5 @@
 diff --git a/configure b/configure
-index 108ad4c..9c700cb 100755
+index 108ad4c..d321125 100755
 --- a/configure
 +++ b/configure
 @@ -11743,7 +11743,9 @@ case $host_os in
@@ -13,3 +13,15 @@ index 108ad4c..9c700cb 100755
  beos*)
    lt_cv_deplibs_check_method=pass_all
    ;;
+@@ -18950,7 +18952,10 @@ EOF
+ \\n(.X
+ EOF
+ `
+-   if test "x$man_heirloom_ext_plain" != 0 && \
++   # Basic return code test
++   $nroff -mg
++
++   if test $? -eq 0 && test "x$man_heirloom_ext_plain" != 0 && \
+       test "x$man_heirloom_ext_mg" != 0 && \
+       test "x$man_heirloom_ext_plain" != "x$man_heirloom_extflag_mg"
+    then
