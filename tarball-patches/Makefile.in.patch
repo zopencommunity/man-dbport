@@ -1,0 +1,21 @@
+diff --git a/src/Makefile.in b/src/Makefile.in
+index 0f13f6c..bf0b80a 100644
+--- a/src/Makefile.in
++++ b/src/Makefile.in
+@@ -1738,12 +1738,12 @@ AM_CPPFLAGS = \
+ 	-I$(top_srcdir)/lib \
+ 	-I$(top_srcdir)/libdb \
+ 	-DCONFIG_FILE=\"$(config_file)\" \
+-	-DAPROPOS=\"$(bindir)/$(TRANS_APROPOS)\" \
++	-DAPROPOS=\"$(TRANS_APROPOS)\" \
+ 	-DAPROPOS_NAME=\"$(TRANS_APROPOS)\" \
+-	-DMAN=\"$(bindir)/$(TRANS_MAN)\" \
++	-DMAN=\"$(TRANS_MAN)\" \
+ 	-DMANCONV=\"$(pkglibexecdir)/$(TRANS_MANCONV)\" \
+-	-DMANDB=\"$(bindir)/$(TRANS_MANDB)\" \
+-	-DWHATIS=\"$(bindir)/$(TRANS_WHATIS)\" \
++	-DMANDB=\"$(TRANS_MANDB)\" \
++	-DWHATIS=\"$(TRANS_WHATIS)\" \
+ 	-DZSOELIM=\"$(pkglibexecdir)/$(TRANS_ZSOELIM)\"
+ 
+ AM_CFLAGS = \
