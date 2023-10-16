@@ -69,6 +69,7 @@ EOF
 zopen_append_to_zoslib_env() {
 cat <<EOF
 MAN_TEST_DISABLE_SYSTEM_CONFIG|set|1
+ASCII_TERMINFO|set|PROJECT_ROOT/../../ncurses/ncurses/share/terminfo/
 EOF
 }
 
