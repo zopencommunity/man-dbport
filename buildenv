@@ -59,13 +59,6 @@ zopen_check_results()
   echo "expectedFailures:${expectedFailures}"
 }
 
-zopen_append_to_env() {
-cat <<EOF
-# temporary
-export MAN_TEST_DISABLE_SYSTEM_CONFIG=1
-EOF
-}
-
 zopen_append_to_zoslib_env() {
 cat <<EOF
 MAN_TEST_DISABLE_SYSTEM_CONFIG|set|1
