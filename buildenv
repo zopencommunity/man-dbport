@@ -1,21 +1,18 @@
-#
-# Set up environment variables for man build to operate
-#
-export ZOPEN_TYPE="TARBALL"
+# bump: man-db-version /MAN_DB_VERSION="(.*)"/ https://gitlab.com/man-db/man-db.git|semver:*
+MAN_DB_VERSION="2.11.2"
 
-export ZOPEN_GIT_URL="https://gitlab.com/cjwatson/man-db.git"
+export ZOPEN_BUILD_LINE="STABLE"
+export ZOPEN_DEV_URL="https://gitlab.com/cjwatson/man-db.git"
+export ZOPEN_DEV_DEPS="git make xz gzip tar pkgconfig flex libtool autoconf automake gettext m4 perl zoslib wget coreutils libiconv libgdbm ncurses groff less sed grep diffutils libpipeline"
 
-export ZOPEN_GIT_DEPS="git make xz gzip tar pkgconfig flex libtool autoconf automake gettext m4 perl zoslib wget coreutils libiconv libgdbm ncurses groff less sed grep diffutils libpipeline"
-
-MAN_DB_VER="man-db-2.11.2"
-export ZOPEN_TARBALL_URL="https://download.savannah.nongnu.org/releases/man-db/${MAN_DB_VER}.tar.xz"
-export ZOPEN_TARBALL_DEPS="curl make xz gzip libtool autoconf automake gettext m4 perl zoslib wget coreutils libiconv libgdbm ncurses libpipeline groff less sed grep diffutils"
+export ZOPEN_STABLE_URL="https://download.savannah.nongnu.org/releases/man-db/man-db-${MAN_DB_VERSION}.tar.xz"
+export ZOPEN_STABLE_DEPS="curl make xz gzip libtool autoconf automake gettext m4 perl zoslib wget coreutils libiconv libgdbm ncurses libpipeline groff less sed grep diffutils"
 export ZOPEN_EXTRA_CONFIGURE_OPTS='--disable-cache-owner'
 export LESSCHARSET=utf-8
 export ZOPEN_RUNTIME_DEPS="groff libiconv less ncurses"
 
 rm -f patches
-if [ "${ZOPEN_TYPE}x" = "TARBALLx" ]; then
+if [ "${ZOPEN_BUILD_LINE}x" = "STABLEx" ]; then
   ln -s tarball-patches patches
   export ZOPEN_BOOTSTRAP=skip
   export libpipeline_CFLAGS="\${CFLAGS}"
