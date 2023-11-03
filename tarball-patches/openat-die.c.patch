@@ -1,0 +1,43 @@
+diff --git a/gl/lib/openat-die.c b/gl/lib/openat-die.c
+index df3dbc9..8c5c811 100644
+--- a/gl/lib/openat-die.c
++++ b/gl/lib/openat-die.c
+@@ -21,8 +21,10 @@
+ 
+ #include <stdlib.h>
+ 
+-#ifndef GNULIB_LIBPOSIX
+-# include "error.h"
++#ifndef __MVS__
++# ifndef GNULIB_LIBPOSIX
++#  include "error.h"
++# endif
+ #endif
+ 
+ #include "exitfail.h"
+@@ -33,9 +35,11 @@
+ _Noreturn void
+ openat_save_fail (int errnum)
+ {
+-#ifndef GNULIB_LIBPOSIX
++#ifndef __MVS__
++ #ifndef GNULIB_LIBPOSIX
+   error (exit_failure, errnum,
+          _("unable to record current working directory"));
++ #endif
+ #endif
+   /* _Noreturn cannot be applied to error, since it returns
+      when its first argument is 0.  To help compilers understand that this
+@@ -52,9 +56,11 @@ openat_save_fail (int errnum)
+ _Noreturn void
+ openat_restore_fail (int errnum)
+ {
+-#ifndef GNULIB_LIBPOSIX
++#ifndef __MVS__
++ #ifndef GNULIB_LIBPOSIX
+   error (exit_failure, errnum,
+          _("failed to return to initial working directory"));
++ #endif
+ #endif
+ 
+   /* As above.  */
