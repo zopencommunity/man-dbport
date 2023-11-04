@@ -1,5 +1,5 @@
 # bump: man-db-version /MAN_DB_VERSION="(.*)"/ https://gitlab.com/man-db/man-db.git|semver:*
-MAN_DB_VERSION="2.11.2"
+MAN_DB_VERSION="2.12.0"
 
 export ZOPEN_BUILD_LINE="STABLE"
 export ZOPEN_DEV_URL="https://gitlab.com/cjwatson/man-db.git"
@@ -10,6 +10,7 @@ export ZOPEN_STABLE_DEPS="curl make xz gzip libtool autoconf automake gettext m4
 export ZOPEN_EXTRA_CONFIGURE_OPTS='--disable-cache-owner'
 export LESSCHARSET=utf-8
 export ZOPEN_RUNTIME_DEPS="groff libiconv less ncurses"
+export ZOPEN_COMP="CLANG"
 
 rm -f patches
 if [ "${ZOPEN_BUILD_LINE}x" = "STABLEx" ]; then
@@ -31,11 +32,11 @@ zopen_check_results()
 #============================================================================
 #Testsuite summary for man-db 2.10.2
 #============================================================================
-# TOTAL: 31
-# PASS:  28
+# TOTAL: 32
+# PASS:  30
 # SKIP:  0
 # XFAIL: 0
-# FAIL:  3
+# FAIL:  2
 # XPASS: 0
 # ERROR: 0
   dir="$1"
@@ -49,7 +50,7 @@ zopen_check_results()
   else
     actualFailures=$(echo "${failureTests}" | wc -l)
   fi
-  expectedFailures=3
+  expectedFailures=2
   echo "${failureTests}" >"$1/$2_check_failures.log"
   echo "actualFailures:${actualFailures}"
   echo "totalTests:${totalTests}"
