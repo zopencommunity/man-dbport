@@ -1,0 +1,14 @@
+diff --git a/gl/lib/error.in.h b/gl/lib/error.in.h
+index 94477fd..fdfa9af 100644
+--- a/gl/lib/error.in.h
++++ b/gl/lib/error.in.h
+@@ -128,6 +128,9 @@ _gl_inline_error (int __status, int __errnum, const char *__format, ...)
+        __gl_error_call (_gl_inline_error, status, __VA_ARGS__)
+ #   endif
+ #  else
++#   ifdef __MVS__
++      void error(int, ...);
++#   endif
+ #   define error(status, ...) \
+       __gl_error_call (error, status, __VA_ARGS__)
+ #  endif
