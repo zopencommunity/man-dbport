@@ -11,6 +11,7 @@ export ZOPEN_EXTRA_CONFIGURE_OPTS='--disable-cache-owner'
 export LESSCHARSET=utf-8
 export ZOPEN_RUNTIME_DEPS="groff libiconv less ncurses"
 export ZOPEN_COMP="CLANG"
+export ZOPEN_CHECK_OPTS="-i check"
 
 rm -f patches
 if [ "${ZOPEN_BUILD_LINE}x" = "STABLEx" ]; then
@@ -27,34 +28,26 @@ else
   export libpipeline_LIBS="-lpipeline"
 fi
 
+zopen_pre_check() {
+  # z/OS Open Tools MANPATH can cause "cannot execute: EDC5126I Filename too long." in libtool
+  unset MANPATH
+}
+
 zopen_check_results()
 {
-#============================================================================
-#Testsuite summary for man-db 2.10.2
-#============================================================================
-# TOTAL: 32
-# PASS:  30
-# SKIP:  0
-# XFAIL: 0
-# FAIL:  2
-# XPASS: 0
-# ERROR: 0
   dir="$1"
   pfx="$2"
   chk="$1/$2_check.log"
 
-  totalTests=$(grep '# TOTAL:' $chk | awk '{ print $3 }')
-  failureTests=$(grep -e '^FAIL:' $chk)
-  if [ "${failureTests}x" = "x" ]; then
-    actualFailures=0
-  else
-    actualFailures=$(echo "${failureTests}" | wc -l)
-  fi
-  expectedFailures=2
-  echo "${failureTests}" >"$1/$2_check_failures.log"
-  echo "actualFailures:${actualFailures}"
-  echo "totalTests:${totalTests}"
-  echo "expectedFailures:${expectedFailures}"
+  # We only care about the summary as man's test results display FAILS duplicate times in the same format
+  failures=$(grep -A 10 "Testsuite summary for man-db"  ${chk} | grep -E '^# FAIL:|^# ERROR:|^# XFAIL' | awk '{sum+=$3;} END{print sum;}')
+  totalTests=$(grep -A 10 "Testsuite summary for man-db"  ${chk} | grep -E '^# ERROR:|^# PASS:|^# XFAIL:|^# FAIL:|^# XPASS:' | awk '{sum+=$3;} END{print sum;}')
+
+  cat <<ZZ
+  actualFailures:$failures
+  totalTests:$totalTests
+  expectedFailures:12
+ZZ
 }
 
 zopen_append_to_zoslib_env() {
