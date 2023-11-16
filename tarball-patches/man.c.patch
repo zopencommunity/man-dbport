@@ -1,14 +1,15 @@
 diff --git a/src/man.c b/src/man.c
-index f072c75..dd51448 100644
+index 5d3be39..6d71087 100644
 --- a/src/man.c
 +++ b/src/man.c
-@@ -4440,7 +4440,25 @@ int main (int argc, char *argv[])
+@@ -4479,8 +4479,25 @@ int main (int argc, char *argv[])
  					if (!section && maybe_section &&
  					    CTYPE (isdigit, nextarg[0]))
  						gripe_no_name (nextarg);
 -					else
+-						gripe_no_man (nextarg, section);
 +					else {
-+#ifdef __MVS__
++#if __MVS__
 +            char* fmt = "/bin/man %s %s 2>/dev/null";
 +            char* cmd = malloc(strlen(nextarg)+strlen(section)+strlen(fmt)+1);
 +            int rc = 0;
@@ -26,6 +27,6 @@ index f072c75..dd51448 100644
 +#else
 +					gripe_no_man (nextarg, section);
 +#endif
- 						gripe_no_man (nextarg, section);
  				}
  			}
+ 		} else {
