@@ -60,3 +60,19 @@ EOF
 zopen_get_version() {
   ./src/man --version | awk ' { print $2; } '
 }
+
+zopen_post_install()
+{
+  mv $ZOPEN_INSTALL_DIR/bin/man $ZOPEN_INSTALL_DIR/bin/gman
+  mkdir $ZOPEN_INSTALL_DIR/altbin
+  ln -s ../bin/gman $ZOPEN_INSTALL_DIR/altbin/man
+}
+
+zopen_install_caveats()
+{
+cat <<ZZ
+Man-db has been installed with the prefix "g" under bin/ to avoid collision with z/OS /bin/ tools.
+If you prefer to use the man-db without the g suffix, source zopen-config with the option --override-zos-tools.
+Or add \$ZOPEN_ROOTFS/usr/local/altbin to your \$PATH.
+ZZ
+}
