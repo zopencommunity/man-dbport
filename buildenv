@@ -63,16 +63,16 @@ zopen_get_version() {
 
 zopen_post_install()
 {
-  mv $ZOPEN_INSTALL_DIR/bin/man $ZOPEN_INSTALL_DIR/bin/zman
+  mv $ZOPEN_INSTALL_DIR/bin/man $ZOPEN_INSTALL_DIR/bin/zotman
   mkdir $ZOPEN_INSTALL_DIR/altbin
-  ln -s ../bin/zman $ZOPEN_INSTALL_DIR/altbin/man
+  ln -s ../bin/zotman $ZOPEN_INSTALL_DIR/altbin/man
 }
 
 zopen_install_caveats()
 {
 cat <<ZZ
-Man-db has been installed with the prefix "z" under bin/ to avoid collision with z/OS /bin/ tools.
-If you prefer to use the man-db without the g suffix, source zopen-config with the option --override-zos-tools.
+Man-db has been installed with the prefix "zot" under bin/zotman to avoid collision with z/OS /bin/ tools.
+If you prefer to use the man-db without the zot prefix, source zopen-config with the option --override-zos-tools.
 Or add \$ZOPEN_ROOTFS/usr/local/altbin to your \$PATH.
 ZZ
 }
