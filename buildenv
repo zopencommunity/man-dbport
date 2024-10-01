@@ -66,13 +66,18 @@ zopen_post_install()
   mv $ZOPEN_INSTALL_DIR/bin/man $ZOPEN_INSTALL_DIR/bin/zotman
   mkdir $ZOPEN_INSTALL_DIR/altbin
   ln -s ../bin/zotman $ZOPEN_INSTALL_DIR/altbin/man
+
+  mkdir -p $ZOPEN_INSTALL_DIR/share/altman/man1
+  mv $ZOPEN_INSTALL_DIR/share/man/man1/man.1 $ZOPEN_INSTALL_DIR/share/man/man1/zotman.1
+  ln -s ../../man/man1/zotman.1 $ZOPEN_INSTALL_DIR/share/altman/man1/man.1
 }
 
 zopen_install_caveats()
 {
 cat <<ZZ
-Man-db has been installed with the prefix "zot" under bin/zotman to avoid collision with z/OS /bin/ tools.
-If you prefer to use the man-db without the zot prefix, source zopen-config with the option --override-zos-tools.
-Or add \$ZOPEN_ROOTFS/usr/local/altbin to your \$PATH.
+Man-db has been installed as zotman under the bin/ dir to avoid collision with z/OS /bin/man.
+The conflicting manpages have been installed under the share/altman dir. You can use zotman to view
+the manpages as such: zotman zotman
+If you prefer to use Man-db as man, source zopen-config with the option --override-zos-tools.
 ZZ
 }
