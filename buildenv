@@ -2,6 +2,7 @@
 MAN_DB_VERSION="2.12.1"
 
 export ZOPEN_BUILD_LINE="STABLE"
+export ZOPEN_CATEGORIES="utilities"
 export ZOPEN_DEV_URL="https://gitlab.com/cjwatson/man-db.git"
 export ZOPEN_DEV_DEPS="git make xz gzip tar pkgconfig flex libtool autoconf automake gettext m4 perl zoslib wget coreutils libiconv libgdbm ncurses groff less sed grep diffutils libpipeline"
 
