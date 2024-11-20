@@ -1,5 +1,5 @@
 # bump: man-db-version /MAN_DB_VERSION="(.*)"/ https://gitlab.com/man-db/man-db.git|semver:*
-MAN_DB_VERSION="2.12.1"
+MAN_DB_VERSION="2.13.0"
 
 export ZOPEN_BUILD_LINE="STABLE"
 export ZOPEN_CATEGORIES="utilities"
