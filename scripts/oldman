@@ -1,0 +1,2 @@
+#!/bin/sh
+MANPATH="/usr/man/%L" /bin/man "$@"

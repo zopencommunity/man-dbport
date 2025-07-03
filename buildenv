@@ -34,6 +34,10 @@ zopen_pre_check() {
   unset MANPATH
 }
 
+zopen_post_install() {
+  cp $ZOPEN_ROOT/scripts/oldman $ZOPEN_INSTALL_DIR/bin/oldman 
+}
+
 zopen_check_results()
 {
   dir="$1"
