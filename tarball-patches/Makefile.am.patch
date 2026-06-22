@@ -1,0 +1,19 @@
+diff --git a/src/Makefile.am b/src/Makefile.am
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -47,10 +47,10 @@ AM_CPPFLAGS = \
+ 	-DCONFIG_FILE=\"$(config_file)\" \
+ 	-DAPROPOS=\"$(bindir)/$(TRANS_APROPOS)\" \
+ 	-DAPROPOS_NAME=\"$(TRANS_APROPOS)\" \
+-	-DMAN=\"$(bindir)/$(TRANS_MAN)\" \
+-	-DMANCONV=\"$(pkglibexecdir)/$(TRANS_MANCONV)\" \
+-	-DMANDB=\"$(bindir)/$(TRANS_MANDB)\" \
+-	-DWHATIS=\"$(bindir)/$(TRANS_WHATIS)\" \
+-	-DZSOELIM=\"$(pkglibexecdir)/$(TRANS_ZSOELIM)\"
++	-DMAN=\"$(TRANS_MAN)\" \
++	-DMANCONV=\"$(TRANS_MANCONV)\" \
++	-DMANDB=\"$(TRANS_MANDB)\" \
++	-DWHATIS=\"$(TRANS_WHATIS)\" \
++	-DZSOELIM=\"$(TRANS_ZSOELIM)\"
+ AM_CFLAGS = \
+ 	$(WARN_CFLAGS) \
